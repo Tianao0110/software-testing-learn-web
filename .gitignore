@@ -1,0 +1,12 @@
+# Claude Code session metadata
+.claude/
+
+# PDF-derived intermediate text files (regenerable from source PDFs)
+_*.txt
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

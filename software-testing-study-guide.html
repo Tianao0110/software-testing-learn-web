@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Testing Study Guide — Units 1–12 (Complete)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{--bg:#faf6ee;--bg-warm:#f5f0e4;--surface:#ffffff;--surface2:#f0ebe0;--border:#e2daca;--border-light:#ece7da;--text:#3d3929;--text-dim:#8a8270;--text-light:#a69e8e;--accent:#4a9e6e;--accent-light:#5cb87e;--accent-bg:#e8f5ee;--accent-border:#b8dfc8;--accent-dim:#3a7d56;--green:#3d8b5a;--green-bg:#e4f2ea;--red:#c25450;--red-bg:#fce8e7;--orange:#c08530;--orange-bg:#fef3e0;--purple:#7c6baf;--purple-bg:#eeebf5;--blue:#4a7fb5;--blue-bg:#e6f0fa;--shadow-sm:0 1px 3px rgba(60,50,30,0.06);--shadow-md:0 2px 8px rgba(60,50,30,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);line-height:1.75;min-height:100vh;-webkit-font-smoothing:antialiased;}
+.app{display:flex;min-height:100vh;}
+.sidebar{width:272px;background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;transition:transform .3s;box-shadow:var(--shadow-sm);}
+.sidebar-header{padding:20px 18px 16px;border-bottom:1px solid var(--border-light);}
+.sidebar-header h1{font-family:'Crimson Pro',serif;font-size:19px;color:var(--accent-dim);font-weight:700;margin-bottom:2px;}
+.sidebar-header p{font-size:11.5px;color:var(--text-dim);}
+.progress-box{margin:12px 14px;padding:12px 14px;background:var(--accent-bg);border:1px solid var(--accent-border);border-radius:10px;}
+.progress-box .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.progress-box .label{font-size:12px;font-weight:600;color:var(--accent-dim);}
+.progress-box .pct{font-size:14px;font-weight:700;color:var(--accent);}
+.progress-track{height:5px;background:var(--accent-border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-light));border-radius:3px;transition:width .5s;}
+.nav-section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);padding:14px 18px 6px;}
+.nav-item{padding:9px 18px;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text-dim);transition:all .15s;border-left:3px solid transparent;}
+.nav-item:hover{background:var(--bg-warm);color:var(--text);}
+.nav-item.active{background:var(--accent-bg);color:var(--accent-dim);border-left-color:var(--accent);font-weight:600;}
+.nav-item.locked{opacity:.35;cursor:not-allowed;}
+.nav-item .num{width:24px;height:24px;border-radius:6px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:var(--text-dim);}
+.nav-item.active .num{background:var(--accent);color:#fff;}
+.nav-item .label{flex:1;}
+.main{flex:1;margin-left:272px;padding:32px 44px 60px;max-width:880px;}
+.unit-header{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-light);}
+.unit-badge{display:inline-block;padding:3px 10px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border);border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.unit-header h2{font-family:'Crimson Pro',serif;font-size:30px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.unit-header p{color:var(--text-dim);font-size:14px;}
+.tabs{display:flex;gap:2px;margin-bottom:24px;background:var(--surface2);padding:3px;border-radius:10px;width:fit-content;border:1px solid var(--border-light);}
+.tab{padding:7px 18px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;color:var(--text-dim);transition:all .15s;border:none;background:none;}
+.tab:hover{color:var(--text);}
+.tab.active{background:var(--accent);color:#fff;box-shadow:var(--shadow-sm);}
+.schedule-grid{display:grid;gap:12px;}
+.schedule-card{background:var(--surface);border:1px solid var(--border-light);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:var(--shadow-sm);transition:all .2s;}
+.schedule-card:hover{box-shadow:var(--shadow-md);}
+.schedule-card .unit-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;}
+.schedule-card .unit-num.done{background:var(--green-bg);color:var(--green);}
+.schedule-card .unit-num.current{background:var(--accent-bg);color:var(--accent);border:2px solid var(--accent);}
+.schedule-card .unit-num.todo{background:var(--surface2);color:var(--text-light);}
+.schedule-card .unit-num.locked{background:var(--surface2);color:var(--text-light);opacity:.4;}
+.schedule-card .info{flex:1;}
+.schedule-card .info .name{font-weight:600;font-size:14.5px;color:var(--text);}
+.schedule-card .info .meta{font-size:12px;color:var(--text-dim);margin-top:2px;}
+.schedule-card .info .meta .pages{display:inline-block;background:var(--surface2);padding:1px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-left:4px;}
+.schedule-card .status-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0;}
+.status-badge.done{background:var(--green-bg);color:var(--green);}
+.status-badge.in-progress{background:var(--orange-bg);color:var(--orange);}
+.status-badge.not-started{background:var(--surface2);color:var(--text-light);}
+.status-badge.locked{background:var(--surface2);color:var(--text-light);opacity:.4;}
+.mini-progress{width:80px;height:4px;background:var(--border-light);border-radius:2px;overflow:hidden;margin-top:6px;}
+.mini-progress .fill{height:100%;border-radius:2px;background:var(--accent);transition:width .4s;}
+.concept-card{background:var(--surface);border:1px solid var(--border-light);border-radius:12px;padding:20px 24px;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:all .2s;position:relative;}
+.concept-card:hover{box-shadow:var(--shadow-md);border-color:var(--accent-border);}
+.concept-card h4{font-size:16px;color:var(--accent-dim);margin-bottom:10px;font-weight:700;padding-right:90px;}
+.concept-card p,.concept-card li{font-size:14.5px;color:var(--text);line-height:1.8;}
+.concept-card ul,.concept-card ol{padding-left:20px;}
+.concept-card li{margin-bottom:4px;}
+.page-ref{position:absolute;top:16px;right:18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-light);background:var(--surface2);padding:2px 8px;border-radius:5px;border:1px solid var(--border-light);}
+.page-ref::before{content:'📖 ';}
+.key-term{display:inline;background:var(--accent-bg);color:var(--accent-dim);padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;border:1px solid var(--accent-border);}
+.zh-note{display:block;margin-top:8px;padding:6px 12px;background:var(--orange-bg);color:var(--orange);border-radius:6px;font-size:13px;border-left:3px solid var(--orange);}
+.callout{background:var(--blue-bg);border-left:3px solid var(--blue);padding:12px 16px;border-radius:0 8px 8px 0;margin:10px 0;font-size:14px;color:var(--text);}
+.callout.important{background:var(--orange-bg);border-left-color:var(--orange);}
+.callout strong{color:var(--orange);}
+.modern-note{margin-top:12px;padding:10px 14px;background:linear-gradient(135deg,rgba(74,127,181,0.06),rgba(124,107,175,0.06));border:1px solid rgba(74,127,181,0.2);border-radius:var(--border-radius-lg,8px);font-size:13px;line-height:1.7;}
+.modern-note .mn-header{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:12px;font-weight:600;}
+.modern-note .mn-badge{background:linear-gradient(135deg,#4a7fb5,#7c6baf);color:#fff;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:0.5px;}
+.modern-note .mn-title{color:#4a7fb5;}
+.modern-note .mn-body{color:var(--text);font-size:12.5px;}
+.score-bar{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--surface);border:1px solid var(--border-light);border-radius:12px;margin-bottom:20px;box-shadow:var(--shadow-sm);}
+.score-bar .score-item{text-align:center;}
+.score-bar .score-item .val{font-size:22px;font-weight:700;}
+.score-bar .score-item .lbl{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;}
+.score-bar .divider{width:1px;height:36px;background:var(--border);}
+.question-card{background:var(--surface);border:1px solid var(--border-light);border-radius:12px;padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
+.q-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.q-num{background:var(--surface2);color:var(--text-dim);font-size:11px;font-weight:700;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.q-type{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.q-type.mc{background:var(--accent-bg);color:var(--accent);}
+.q-type.sa{background:var(--purple-bg);color:var(--purple);}
+.q-text{font-size:15px;margin-bottom:14px;font-weight:600;color:var(--text);}
+.option{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;margin-bottom:6px;background:var(--bg-warm);border:2px solid transparent;border-radius:9px;cursor:pointer;transition:all .15s;font-size:14px;}
+.option:hover{border-color:var(--accent-border);background:var(--accent-bg);}
+.option.selected{border-color:var(--accent);background:var(--accent-bg);}
+.option.correct{border-color:var(--green);background:var(--green-bg);}
+.option.wrong{border-color:var(--red);background:var(--red-bg);}
+.option .letter{width:24px;height:24px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.option.selected .letter{background:var(--accent);color:#fff;border-color:var(--accent);}
+.option.correct .letter{background:var(--green);color:#fff;border-color:var(--green);}
+.option.wrong .letter{background:var(--red);color:#fff;border-color:var(--red);}
+.sa-input{width:100%;background:var(--bg-warm);border:2px solid var(--border);border-radius:9px;padding:12px 14px;color:var(--text);font-family:'Source Sans 3',sans-serif;font-size:14px;resize:vertical;min-height:80px;transition:border-color .2s;}
+.sa-input:focus{outline:none;border-color:var(--accent);}
+.check-btn{margin-top:10px;padding:8px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;}
+.check-btn:hover{background:var(--accent-dim);}
+.check-btn:disabled{opacity:.3;cursor:not-allowed;}
+.feedback{margin-top:12px;padding:12px 16px;border-radius:9px;font-size:14px;line-height:1.7;display:none;}
+.feedback.correct{display:block;background:var(--green-bg);border:1px solid #b8dfc8;}
+.feedback.wrong{display:block;background:var(--red-bg);border:1px solid #f0c5c4;}
+.feedback.reveal{display:block;background:var(--blue-bg);border:1px solid #bdd4ea;}
+.fb-label{font-weight:700;margin-bottom:4px;}
+.fb-label.pass{color:var(--green);}
+.fb-label.fail{color:var(--red);}
+.fb-label.info{color:var(--blue);}
+.menu-toggle{display:none;position:fixed;top:10px;left:10px;z-index:200;width:38px;height:38px;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:18px;cursor:pointer;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);}
+.overlay{display:none;position:fixed;inset:0;background:rgba(60,50,30,.3);z-index:90;}
+@media(max-width:768px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;padding:20px 14px;padding-top:56px;}.menu-toggle{display:flex;}.overlay.show{display:block;}.unit-header h2{font-size:22px;}.tabs{width:100%;}.tab{flex:1;text-align:center;font-size:12px;padding:7px 8px;}.concept-card h4{padding-right:0;}.page-ref{position:static;display:inline-block;margin-bottom:8px;}}
+</style>
+</head>
+<body>
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header"><h1>📗 Software Testing</h1><p>SAIT · Everett & McLeod · Study Guide</p></div>
+  <div class="progress-box"><div class="row"><span class="label">Study Progress</span><span class="pct" id="progressPct">0%</span></div><div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+  <div class="nav-section-label">Navigation</div>
+  <nav id="navList"></nav>
+</aside>
+<main class="main" id="mainContent"></main>
+</div>
+<!-- Registry initializers MUST load before unit files (units register into them) -->
+<script>var EXTRA_UNITS=[];</script>
+<script src="interactives.js"></script>
+<script src="modern-notes.js"></script>
+<!-- Per-unit files: each contains its own cards, quiz, INTERACTIVES, MODERN_NOTES -->
+<script src="unit1.js"></script>
+<script src="unit2.js"></script>
+<script src="unit3.js"></script>
+<script src="unit4.js"></script>
+<script src="unit5.js"></script>
+<script src="unit6.js"></script>
+<script src="unit7.js"></script>
+<script src="unit8.js"></script>
+<script src="unit9.js"></script>
+<script src="unit10.js"></script>
+<script src="unit11.js"></script>
+<script src="unit12.js"></script>
+<script src="extras.js"></script>
+<script>
+const unitMeta=[{id:1,title:"Introduction to Software Testing",pages:"pp.1–28",locked:false},{id:2,title:"The Software Development Life Cycle",pages:"pp.29–58",locked:false},{id:3,title:"Testing Strategies",pages:"pp.59–78",locked:false},{id:4,title:"Test Planning",pages:"pp.79–92",locked:false},{id:5,title:"Static Testing",pages:"pp.93–98",locked:false},{id:6,title:"Functional Testing",pages:"pp.99–121",locked:false},{id:7,title:"Structural (Non-Functional) Testing",pages:"pp.122–127",locked:false},{id:8,title:"Performance Testing",pages:"pp.129–148",locked:false},{id:9,title:"Testing Environments",pages:"pp.150–158",locked:false},{id:10,title:"Automated Testing Tools",pages:"pp.159–175",locked:false},{id:11,title:"Test Results",pages:"pp.176–201",locked:false},{id:12,title:"Software Deployment",pages:"pp.203–254",locked:false}];
+const units=[];
+let currentUnit=-1,currentTab='concepts',quizState={},currentExtra=null;
+function initNav(){const n=document.getElementById('navList');let h=`<div class="nav-item ${currentUnit===-1&&!currentExtra?'active':''}" onclick="showProgress()"><div class="num" style="${currentUnit===-1&&!currentExtra?'background:var(--accent);color:#fff':''}">📋</div><div class="label" style="font-weight:600">Progress Schedule</div></div>`;h+=unitMeta.map((u,i)=>`<div class="nav-item ${i===currentUnit?'active':''} ${u.locked?'locked':''}" onclick="${u.locked?'':'selectUnit('+i+')'}""><div class="num">${u.id}</div><div class="label">${u.title}</div>${u.locked?'<span style="font-size:11px">🔒</span>':''}</div>`).join('');
+if(typeof EXTRAS!=='undefined'){h+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-light);padding:14px 18px 6px;">Study tools</div>';Object.keys(EXTRAS).forEach(k=>{const e=EXTRAS[k];h+=`<div class="nav-item ${currentExtra===k?'active':''}" onclick="selectExtra('${k}')"><div class="num">${e.icon}</div><div class="label">${e.title}</div></div>`;});}
+n.innerHTML=h;}
+function showProgress(){currentUnit=-1;currentExtra=null;initNav();renderProgress();closeMobile();window.scrollTo(0,0);}
+function selectUnit(i){if(unitMeta[i].locked)return;currentUnit=i;currentExtra=null;currentTab='concepts';initNav();renderUnit();closeMobile();window.scrollTo(0,0);}
+function selectExtra(k){currentUnit=-2;currentExtra=k;initNav();renderExtra();closeMobile();window.scrollTo(0,0);}
+function renderExtra(){const e=EXTRAS[currentExtra];if(!e)return;const m=document.getElementById('mainContent');m.innerHTML='<div class="unit-header"><div class="unit-badge">Study tool</div><h2>'+e.icon+' '+e.title+'</h2></div><div id="_extraContainer"></div>';e.render(document.getElementById('_extraContainer'));}
+function switchTab(t){currentTab=t;renderUnit();}
+function renderProgress(){const m=document.getElementById('mainContent');let h=`<div class="unit-header"><div class="unit-badge">Overview</div><h2>📋 Study Progress Schedule</h2><p>12 units · Based on <em>Software Testing</em> by Everett & McLeod (2007, Wiley) · 280 pages</p></div><div class="schedule-grid">`;
+unitMeta.forEach((u,i)=>{const ud=units.find(x=>x.id===u.id);const qs=quizState[u.id];let qt=ud?ud.quiz.length:0,qd=0;if(qs)Object.keys(qs.checked).forEach(k=>{if(qs.checked[k])qd++;});let s='not-started',sl='Not Started';if(u.locked){s='locked';sl='Locked';}else if(qd>=qt&&qt>0){s='done';sl='Complete';}else if(qd>0){s='in-progress';sl='In Progress';}const p=qt>0?Math.round((qd/qt)*100):0;
+h+=`<div class="schedule-card" ${!u.locked?'onclick="selectUnit('+i+')" style="cursor:pointer"':''}><div class="unit-num ${s}">${u.id}</div><div class="info"><div class="name">${u.title}</div><div class="meta">${qt>0?qd+'/'+qt+' questions':'—'} <span class="pages">${u.pages}</span></div>${!u.locked&&qt>0?'<div class="mini-progress"><div class="fill" style="width:'+p+'%"></div></div>':''}</div><div class="status-badge ${s}">${sl}</div></div>`;});
+h+='</div>';m.innerHTML=h;updateProgress();}
+function renderUnit(){const um=unitMeta[currentUnit];const u=units.find(x=>x.id===um.id);if(!u)return;const m=document.getElementById('mainContent');const hasInt=typeof INTERACTIVES!=='undefined'&&INTERACTIVES[u.id];let h=`<div class="unit-header"><div class="unit-badge">Unit ${u.id} · ${um.pages}</div><h2>${um.title}</h2><p>${u.concepts.length} concepts · ${u.quiz.length} questions${hasInt?' · interactive':''}</p></div><div class="tabs"><button class="tab ${currentTab==='concepts'?'active':''}" onclick="switchTab('concepts')">📖 Concepts</button><button class="tab ${currentTab==='quiz'?'active':''}" onclick="switchTab('quiz')">✍️ Quiz</button>${hasInt?'<button class="tab '+(currentTab==='interactive'?'active':'')+'" onclick="switchTab(\'interactive\')">🔬 Interactive</button>':''}</div>`;
+if(currentTab==='interactive'&&hasInt){h+='<div id="_interactiveContainer"></div>';m.innerHTML=h;INTERACTIVES[u.id](document.getElementById('_interactiveContainer'));updateProgress();return;}
+if(currentTab==='concepts'){h+=u.concepts.map((c,i)=>{let card=`<div class="concept-card"><span class="page-ref">${c.ref}</span><h4>${i+1}. ${c.title}</h4>${c.content}`;const mk=u.id+'-'+i;if(typeof MODERN_NOTES!=='undefined'&&MODERN_NOTES[mk]){const mn=MODERN_NOTES[mk];card+=`<div class="modern-note"><div class="mn-header"><span class="mn-badge">MODERN ${mn.year}</span><span class="mn-title">${mn.title}</span></div><div class="mn-body">${mn.content}</div></div>`;}card+='</div>';return card;}).join('');}else{const qs=quizState[u.id]||{answers:{},checked:{},score:null};if(qs.score){const p=Math.round((qs.score.correct/qs.score.total)*100);h+=`<div class="score-bar"><div class="score-item"><div class="val" style="color:var(--green)">${qs.score.correct}</div><div class="lbl">Correct</div></div><div class="divider"></div><div class="score-item"><div class="val" style="color:var(--red)">${qs.score.total-qs.score.correct}</div><div class="lbl">Wrong</div></div><div class="divider"></div><div class="score-item"><div class="val" style="color:var(--accent)">${p}%</div><div class="lbl">Score</div></div></div>`;}
+h+='<div>';u.quiz.forEach((q,qi)=>{const ck=qs.checked[qi],ua=qs.answers[qi];h+=`<div class="question-card"><div class="q-header"><div class="q-num">Q${qi+1}</div><div class="q-type ${q.type==='mc'?'mc':'sa'}">${q.type==='mc'?'Multiple Choice':'Short Answer'}</div></div><div class="q-text">${q.q}</div>`;
+if(q.type==='mc'){const L=['A','B','C','D'];q.options.forEach((o,oi)=>{let c='option';if(ck){if(oi===q.answer)c+=' correct';else if(oi===ua)c+=' wrong';}else if(ua===oi)c+=' selected';h+=`<div class="${c}" onclick="selOpt(${u.id},${qi},${oi})"><div class="letter">${L[oi]}</div><div>${o}</div></div>`;});if(!ck)h+=`<button class="check-btn" onclick="chkMC(${u.id},${qi})" ${ua===undefined?'disabled':''}>Check Answer</button>`;if(ck){const ok=ua===q.answer;h+=`<div class="feedback ${ok?'correct':'wrong'}"><div class="fb-label ${ok?'pass':'fail'}">${ok?'✓ Correct!':'✗ Incorrect'}</div><div>${q.explanation}</div></div>`;}}else{h+=`<textarea class="sa-input" id="sa-${u.id}-${qi}" placeholder="Type your answer..." ${ck?'disabled':''} oninput="saveSA(${u.id},${qi})">${ua||''}</textarea>`;if(!ck)h+=`<button class="check-btn" onclick="chkSA(${u.id},${qi})">Show Sample Answer</button>`;if(ck)h+=`<div class="feedback reveal"><div class="fb-label info">📝 Sample Answer:</div><div style="white-space:pre-line">${q.sampleAnswer}</div><div style="margin-top:8px;font-size:12px;color:var(--text-dim)"><strong>Key terms:</strong> ${q.keywords.join(', ')}</div><div style="margin-top:10px;display:flex;gap:8px"><button class="check-btn" style="background:var(--green);font-size:12px;padding:5px 12px" onclick="selfGrade(${u.id},${qi},true)">✓ I got it</button><button class="check-btn" style="background:var(--red);font-size:12px;padding:5px 12px" onclick="selfGrade(${u.id},${qi},false)">✗ Missed it</button></div></div>`;}h+='</div>';});h+='</div>';}
+m.innerHTML=h;updateProgress();}
+function selOpt(uid,qi,oi){if(!quizState[uid])quizState[uid]={answers:{},checked:{},score:null};if(quizState[uid].checked[qi])return;quizState[uid].answers[qi]=oi;renderUnit();}
+function saveSA(uid,qi){if(!quizState[uid])quizState[uid]={answers:{},checked:{},score:null};const e=document.getElementById(`sa-${uid}-${qi}`);if(e)quizState[uid].answers[qi]=e.value;}
+function chkMC(uid,qi){if(!quizState[uid])return;quizState[uid].checked[qi]=true;calcScore(uid);renderUnit();}
+function chkSA(uid,qi){if(!quizState[uid])quizState[uid]={answers:{},checked:{},score:null};quizState[uid].checked[qi]=true;renderUnit();}
+function selfGrade(uid,qi,ok){if(!quizState[uid])return;quizState[uid].checked[qi]=ok?'correct':'wrong';calcScore(uid);renderUnit();}
+function calcScore(uid){const u=units.find(x=>x.id===uid);const qs=quizState[uid];if(!u||!qs)return;let all=true,c=0,t=u.quiz.length;u.quiz.forEach((q,qi)=>{if(!qs.checked[qi]){all=false;return;}if(q.type==='mc'){if(qs.answers[qi]===q.answer)c++;}else{if(qs.checked[qi]==='correct')c++;}});if(all)qs.score={correct:c,total:t};}
+function updateProgress(){let t=0,d=0;units.forEach(u=>{t+=u.quiz.length;const qs=quizState[u.id];if(qs)Object.keys(qs.checked).forEach(k=>{if(qs.checked[k])d++;});});const p=t>0?Math.round((d/t)*100):0;document.getElementById('progressPct').textContent=p+'%';document.getElementById('progressFill').style.width=p+'%';}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show');}
+function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+EXTRA_UNITS.forEach(u=>units.push(u));
+initNav();renderProgress();
+</script>
+</body>
+</html>
